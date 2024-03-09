@@ -20,6 +20,11 @@ export const getEmails = async (req, res) => {
     let emails;
     if (req?.params?.type === "allmail") {
       emails = await EmailModel.find({});
+    } else if (req?.params?.type === "starred") {
+      emails = await EmailModel.find({ starred: true });
+    } else if (req?.params?.type === "trash") {
+      emails = await EmailModel.find({ trash: true });
+ 
     } else {
       emails = await EmailModel.find({ type });
     }
@@ -52,7 +57,7 @@ export const moveEmailsToTrash = async (req, res) => {
           $set: {
             trash: true,
             starred: false,
-            type: "trash",
+            type:""
           },
         });
       });
@@ -60,5 +65,32 @@ export const moveEmailsToTrash = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Unable to move emails to trash!" });
+  }
+};
+
+export const getEmailDetails = async (req, res) => {
+  try {
+    const email = await EmailModel.findById(req.params.id);
+    res.status(200).json({ email });
+  } catch (error) {
+    res.status(500).json({ message: "Unable to get email details!" });
+  }
+};
+export const toggleStarredEmail = async (req, res) => {
+  try {
+    const { _id, starred } = req.body;
+
+    const updatedMail = await EmailModel.findByIdAndUpdate(
+      _id,
+      {
+        $set: { starred: !starred },
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ success: "Email starred successfully!", updatedMail });
+  } catch (error) {
+    return res.status(500).json({ message: "Unable to star email!" });
   }
 };
