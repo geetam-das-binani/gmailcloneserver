@@ -1,5 +1,7 @@
 import express from 'express';
-import { saveSentEmail,getEmails ,saveDrafts,moveEmailsToTrash,getEmailDetails,toggleStarredEmail} from '../controllers/mailController.mjs';
+import { saveSentEmail,getEmails ,
+    saveDrafts,moveEmailsToTrash,getEmailDetails,
+    toggleStarredEmail} from '../controllers/mailController.mjs';
 const router = express.Router();
 
 
@@ -12,7 +14,7 @@ router.route("/get/:type")
 router.route("/save-draft")
 .post(saveDrafts)
 
-router.route("/move-to-trash/:type")
+router.route("/move-to-trash/:type?")
 .post(moveEmailsToTrash)
 
 router.route("/get-email/:id")
@@ -20,4 +22,5 @@ router.route("/get-email/:id")
 
 
 router.route("/toggle-star").post(toggleStarredEmail)
+
 export default router

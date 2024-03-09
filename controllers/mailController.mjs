@@ -21,10 +21,9 @@ export const getEmails = async (req, res) => {
     if (req?.params?.type === "allmail") {
       emails = await EmailModel.find({});
     } else if (req?.params?.type === "starred") {
-      emails = await EmailModel.find({ starred: true });
+      emails = await EmailModel.find({ starred: true, trash: false });
     } else if (req?.params?.type === "trash") {
       emails = await EmailModel.find({ trash: true });
- 
     } else {
       emails = await EmailModel.find({ type });
     }
@@ -57,7 +56,7 @@ export const moveEmailsToTrash = async (req, res) => {
           $set: {
             trash: true,
             starred: false,
-            type:""
+            type: "",
           },
         });
       });
@@ -94,3 +93,4 @@ export const toggleStarredEmail = async (req, res) => {
     return res.status(500).json({ message: "Unable to star email!" });
   }
 };
+
