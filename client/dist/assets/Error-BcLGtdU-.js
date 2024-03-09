@@ -1,0 +1,1 @@
+import{ad as s,j as r,I as a,z as e}from"./index-3ka0rjJ0.js";const n=()=>{const o=s();return console.log(o),r.jsx(a,{sx:{marginLeft:"250px"},children:r.jsx(e,{variant:"h5",sx:{color:"#F44336"},children:"There was an error loading this page"})})};export{n as default};
